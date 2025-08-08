@@ -70,7 +70,7 @@ function removeGoal(id) {
   };
 };
 
-function todo(state=[],action){
+function todos(state=[],action){
   switch(action.type){
     case  ADD_TODO:
       return state.concat([action.todo]);
@@ -98,5 +98,18 @@ function goals(state=[],action){
       return state;
   }
 }
+
+function app(state={},action){
+  return {
+    todos: todos(state.todos,action),
+    goals: goals(state.goals,action),
+  };
+};
+
+const store=createStore(app);
+
+store.subscribe(() => {
+  console.log("The new state is: ", store.getState());
+});
 
 
