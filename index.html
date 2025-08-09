@@ -216,6 +216,13 @@
           })
         );
       }
+      function removeButton(onClick){
+        const removeBtn=document.createElement('button');
+        removeBtn.innerHTML='X';
+        removeBtn.addEventListener('click',onClick);
+        return removeBtn;
+
+      }
       document.getElementById('todoBtn').addEventListener('click', addTodo);
       document.getElementById('goalBtn').addEventListener('click', addGoal);
 
@@ -223,6 +230,10 @@
         const node=document.createElement('li');
         const text=document.createTextNode(todo.name);
         node.appendChild(text);
+        const removeBtn=removeButton(
+          ()=>{store.dispatch(removeTodoAction(todo.id));}
+        );
+        node.appendChild(removeBtn);
 
         node.style.textDecoration= todo.complete ? "line-through":"none";
         node.addEventListener('click',()=>{
@@ -234,7 +245,11 @@
       function addGoalToDOM(goal){
         const node=document.createElement('li');
         const text=document.createTextNode(goal.name);
+        const removeBtn=removeButton(
+          ()=>{store.dispatch(removeGoalAction(goal.id));}
+        );
         node.appendChild(text);
+        node.appendChild(removeBtn);
         document.getElementById('goals').appendChild(node);
       }
 
