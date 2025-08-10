@@ -3,6 +3,9 @@
   <head>
     <title>Udacity Todos Goals</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.2/redux.min.js"></script>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.17.6/babel.min.js"></script>
   </head>
   <body>
     <div>
@@ -17,6 +20,12 @@
       <button id="goalBtn">Add Goal</button>
       <ul id="goals"></ul>
     </div>
+
+    <hr/>
+
+    <div id="app"></div>
+
+
     <script type="text/javascript">
 
       function generateId() {
@@ -198,6 +207,48 @@
         node.appendChild(removeBtn);
         document.getElementById('goals').appendChild(node);
       }
+
+    </script>
+
+    <script type="text/babel">
+      const List=(props)=> {
+        return(
+          <ul>
+            <li>List</li>
+          </ul>
+        );
+      };
+
+      const Todos=()=>{
+        return (
+          <div>
+            Todos
+            <List/>
+          
+          </div>
+        );
+      };
+
+      const Goals=()=>{
+        return (
+          <div>
+            Goals
+            <List/>
+          
+          </div>
+        );
+      };
+
+      const App=()=>{
+        return(
+          <div>
+            <Todos/>
+            <Goals/>
+          </div>
+      );
+      };
+
+      ReactDOM.render(<App/>, document.getElementById("app"));
 
 
     </script>
