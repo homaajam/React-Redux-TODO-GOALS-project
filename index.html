@@ -219,36 +219,64 @@
         );
       };
 
-      const Todos=()=>{
+      const Todos=(props)=>{
+        const inputRef=React.useRef();
+
+        const addItem=(e)=>{
+          e.preventDefault();
+          const name=inputRef.current.value;
+          inputRef.current.value="";
+          props.store.dispatch(addTodoAction({
+            name,
+            complete: false,
+            id: generateId(),
+          }));
+        };
+
         return (
           <div>
-            Todos
+            <h1>Todos List</h1>
+            <input type="text" placeholder="add todo" ref={inputRef}/>
+            <button onClick={addItem}>Add</button>
             <List/>
           
           </div>
         );
       };
 
-      const Goals=()=>{
+      const Goals=(props)=>{
+        const inputRef=React.useRef();
+
+        const addItem=(e)=>{
+          e.preventDefault();
+          const name=inputRef.current.value;
+          inputRef.current.value="";
+          props.store.dispatch(addGoalAction({
+            name,
+            id: generateId(),
+          }));
+        }
         return (
           <div>
-            Goals
+            <h1>Goals List</h1>
+            <input type="text" placeholder="add goal" ref={inputRef}/>
+            <button onClick={addItem}>Add</button>
             <List/>
           
           </div>
         );
       };
 
-      const App=()=>{
+      const App=(props)=>{
         return(
           <div>
-            <Todos/>
-            <Goals/>
+            <Todos store={props.store}/>
+            <Goals store={props.store}/>
           </div>
       );
       };
 
-      ReactDOM.render(<App/>, document.getElementById("app"));
+      ReactDOM.render(<App store={store}/>, document.getElementById("app"));
 
 
     </script>
