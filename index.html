@@ -31,7 +31,7 @@
       const REMOVE_GOAL = "REMOVE_GOAL";
       const RECEIVE_DATA = "RECEIVE_DATA";
 
-
+      //action creators:
       function addTodoAction(todo) {
         return {
           type: ADD_TODO,
@@ -71,6 +71,7 @@
         }
       }
 
+      //Reducer functions:
       function todos(state=[],action){
         switch(action.type){
           case  ADD_TODO:
@@ -103,6 +104,15 @@
             return state;
         }
       }
+      function loading(state=true,action){
+        switch(action.type){
+          case RECEIVE_DATA:
+            return false;
+          default:
+            return state;
+        }
+      }
+      //middleware:
       const checker = (store) => (next) => (action) => {
         if (
           action.type === ADD_TODO &&
@@ -133,6 +143,7 @@
       const store=Redux.createStore(Redux.combineReducers({
         todos,
         goals,
+        loading,
       }), Redux.applyMiddleware(checker,logger));
 
  
@@ -234,7 +245,10 @@
           store.subscribe(()=>setValue((value)=>value+1));
         },[]);
 
-        const {todos,goals}=store.getState();
+        const {todos,goals,loading}=store.getState();
+        if(loading=== true){
+          return <h3>loading...</h3>
+        }
         return(
           <div>
             <Todos todos={todos} store={props.store}/>
