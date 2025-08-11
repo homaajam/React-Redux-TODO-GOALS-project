@@ -214,7 +214,17 @@
       const List=(props)=> {
         return(
           <ul>
-            <li>List</li>
+            {
+              props.items && props.items.map((item)=>
+                (
+                  <li key={item.id}>
+                    <span>{item.name}</span>
+                    <button onClick={()=> props.remove(item)}>X</button>
+                  </li>
+
+                )
+              )
+            }
           </ul>
         );
       };
@@ -232,13 +242,16 @@
             id: generateId(),
           }));
         };
+        const removeItem=(todos)=>{
+          props.store.dispatch(removeTodoAction(todos.id));
+        }
 
         return (
           <div>
             <h1>Todos List</h1>
             <input type="text" placeholder="add todo" ref={inputRef}/>
             <button onClick={addItem}>Add</button>
-            <List/>
+            <List remove={removeItem} items={props.todos}/>
           
           </div>
         );
@@ -255,13 +268,18 @@
             name,
             id: generateId(),
           }));
-        }
+        };
+
+        const removeItem=(goals)=>{
+          props.store.dispatch(removeGoalAction(goals.id));
+        };
+
         return (
           <div>
             <h1>Goals List</h1>
             <input type="text" placeholder="add goal" ref={inputRef}/>
             <button onClick={addItem}>Add</button>
-            <List/>
+            <List remove={removeItem} items={props.goals}/>
           
           </div>
         );
