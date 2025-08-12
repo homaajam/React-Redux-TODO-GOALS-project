@@ -187,10 +187,14 @@
         };
         const removeItem=(todos)=>{
           props.store.dispatch(removeTodoAction(todos.id));
+          return API.deleteTodo(todos.id).catch(()=>{
+            props.store.dispatch(addTodoAction(todos));
+            alert("An error occurred!");
+          });
         };
 
-        const toggleItem=(todos)=>{
-          props.store.dispatch(toggleTodoAction(todos.id));
+        const toggleItem=(todo)=>{
+          props.store.dispatch(toggleTodoAction(todo.id));
         };
 
         return (
@@ -219,6 +223,10 @@
 
         const removeItem=(goals)=>{
           props.store.dispatch(removeGoalAction(goals.id));
+          return API.deleteGoal(goals.id).catch(() => {
+            props.store.dispatch(addGoalAction(goals));
+            alert("An error occurred. Try again.");
+          });
         };
 
         return (
