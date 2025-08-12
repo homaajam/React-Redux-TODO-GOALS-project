@@ -177,13 +177,12 @@
 
         const addItem=(e)=>{
           e.preventDefault();
-          const name=inputRef.current.value;
-          inputRef.current.value="";
-          props.store.dispatch(addTodoAction({
-            name,
-            complete: false,
-            id: generateId(),
-          }));
+          return API.saveTodo(inputRef.current.value).then((todo)=>{
+            props.store.dispatch(addTodoAction(todo));
+            inputRef.current.value="";
+          }).catch(()=>{
+            alert("There was an error. Try again.");
+          });
         };
         const removeItem=(todos)=>{
           props.store.dispatch(removeTodoAction(todos.id));
@@ -217,12 +216,11 @@
 
         const addItem=(e)=>{
           e.preventDefault();
-          const name=inputRef.current.value;
-          inputRef.current.value="";
-          props.store.dispatch(addGoalAction({
-            name,
-            id: generateId(),
-          }));
+          return API.saveGoal(inputRef.current.value)
+            .then((goal) => {
+              props.store.dispatch(addGoalAction(goal));
+              inputRef.current.value = "";
+            }).catch(()=> alert("There was an error. Try again."));
         };
 
         const removeItem=(goals)=>{
