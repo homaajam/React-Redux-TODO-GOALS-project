@@ -195,6 +195,10 @@
 
         const toggleItem=(todo)=>{
           props.store.dispatch(toggleTodoAction(todo.id));
+          return API.saveTodoToggle(todo.id).catch(()=>{
+            props.store.dispatch(toggleTodoAction(todo.id));
+            alert("An error occurred!");
+          });
         };
 
         return (
