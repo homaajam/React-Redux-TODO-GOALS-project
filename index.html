@@ -234,7 +234,7 @@
 
         const addItem=(e)=>{
           e.preventDefault();
-          props.store.dispatch(handleAddTodo(inputRef.current.value, ()=> (inpputRef.current.value="")));
+          props.store.dispatch(handleAddTodo(inputRef.current.value, ()=> (inputRef.current.value="")));
         };
         const removeItem=(todos)=>{
            props.store.dispatch(handleDeleteTodo(todos));
