@@ -118,6 +118,15 @@
             }).catch(()=> alert("There was an error. Try again."));
         };
       }
+      function handleInitialData(){
+        return (dispatch)=>{
+          return Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
+            ([todos, goals]) => {
+              dispatch(receiveDataAction(todos, goals));
+            }
+          );
+        };
+      }
 
       //Reducer functions:
       function todos(state=[],action){
@@ -274,11 +283,7 @@
         const [value,setValue]=React.useState(0);
 
         React.useEffect(()=>{
-          Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
-            ([todos, goals]) => {
-              store.dispatch(receiveDataAction(todos, goals));
-            }
-          );
+          store.dispatch(handleInitialData());
 
           store.subscribe(()=>setValue((value)=>value+1));
         },[]);
