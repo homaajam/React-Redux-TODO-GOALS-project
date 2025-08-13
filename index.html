@@ -81,6 +81,25 @@
           });
         };
       }
+      function handleDeleteGoal(goal){
+        return (dispatch)=>{
+          dispatch(removeGoalAction(goal.id));
+
+          return API.deleteGoal(goal.id).catch(()=>{
+            dispatch(addGoalAction(goal.id));
+            alert("An error occurred. Try again.");
+          });
+        };
+      }
+      function handleAddGoal(name,func){
+        return (dispatch)=>{
+          return API.saveGoal(name)
+            .then((goal) => {
+              dispatch(addGoalAction(goal));
+              func();
+            }).catch(()=> alert("There was an error. Try again."));
+        };
+      }
 
       //Reducer functions:
       function todos(state=[],action){
@@ -223,19 +242,12 @@
 
         const addItem=(e)=>{
           e.preventDefault();
-          return API.saveGoal(inputRef.current.value)
-            .then((goal) => {
-              props.store.dispatch(addGoalAction(goal));
-              inputRef.current.value = "";
-            }).catch(()=> alert("There was an error. Try again."));
+          props.store.dispatch(handleAddGoal(inputRef.current.value , ()=> (inputRef.current.value="")));
         };
 
         const removeItem=(goals)=>{
-          props.store.dispatch(removeGoalAction(goals.id));
-          return API.deleteGoal(goals.id).catch(() => {
-            props.store.dispatch(addGoalAction(goals));
-            alert("An error occurred. Try again.");
-          });
+          props.store.dispatch(handleDeleteGoal(goals));
+    
         };
 
         return (
